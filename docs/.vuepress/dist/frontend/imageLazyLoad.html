@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>图片懒加载之高斯模糊 | pandafeeder</title>
+    <meta name="generator" content="VuePress 1.9.6">
+    
+    <meta name="description" content="note">
+    
+    <link rel="preload" href="/assets/css/0.styles.81770800.css" as="style"><link rel="preload" href="/assets/js/app.1b6c23ac.js" as="script"><link rel="preload" href="/assets/js/2.47941a20.js" as="script"><link rel="preload" href="/assets/js/3.902e5d2c.js" as="script"><link rel="preload" href="/assets/js/10.c371287a.js" as="script"><link rel="prefetch" href="/assets/js/11.05427131.js"><link rel="prefetch" href="/assets/js/12.5b4e0e54.js"><link rel="prefetch" href="/assets/js/4.8ee4be34.js"><link rel="prefetch" href="/assets/js/5.5e7cadfb.js"><link rel="prefetch" href="/assets/js/6.6304fb8e.js"><link rel="prefetch" href="/assets/js/7.3cc007c8.js"><link rel="prefetch" href="/assets/js/8.94f308c5.js"><link rel="prefetch" href="/assets/js/9.bcf2e783.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.81770800.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">pandafeeder</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/" aria-current="page" class="sidebar-link">创建项目</a></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>前端</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/frontend/vue.html" class="sidebar-link">Vue的一些知识</a></li><li><a href="/frontend/canvasBlurIssue.html" class="sidebar-link">解决canvas模糊问题</a></li><li><a href="/frontend/jwt.html" class="sidebar-link">jwt单点登录</a></li><li><a href="/frontend/imageLazyLoad.html" aria-current="page" class="active sidebar-link">图片懒加载之高斯模糊</a></li><li><a href="/frontend/cssCircle.html" class="sidebar-link">HTML环形加载</a></li><li><a href="/frontend/interview.html" class="sidebar-link">常用知识点</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="图片懒加载之高斯模糊"><a href="#图片懒加载之高斯模糊" class="header-anchor">#</a> 图片懒加载之高斯模糊</h1> <ul><li>html</li></ul> <div class="language-html extra-class"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token comment">&lt;!-- 图片未加载完成时可以通过a标签浏览--&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/nature5.jpg<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span>
+      <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span><span class="token value css language-css"><span class="token property">width</span><span class="token punctuation">:</span>800px<span class="token punctuation">;</span><span class="token property">height</span><span class="token punctuation">:</span>200px</span><span class="token punctuation">&quot;</span></span></span>
+      <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>lazy-img<span class="token punctuation">&quot;</span></span>
+      <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>../assets/nature.jpg<span class="token punctuation">&quot;</span></span>
+      <span class="token attr-name">data-original</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/nature5.jpg<span class="token punctuation">&quot;</span></span>
+      <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span><span class="token punctuation">&quot;</span></span>
+    <span class="token punctuation">/&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><ul><li>js</li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">lazyLoad</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> imgs <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementsByClassName</span><span class="token punctuation">(</span><span class="token string">'lazy-img'</span><span class="token punctuation">)</span>
+
+      <span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token keyword">const</span> oldImg <span class="token operator">=</span> imgs<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+      img<span class="token punctuation">.</span>src <span class="token operator">=</span> oldImg<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">'data-original'</span><span class="token punctuation">)</span>
+      img<span class="token punctuation">.</span>classList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">'real-img'</span><span class="token punctuation">)</span>
+      <span class="token keyword">let</span> <span class="token function-variable function">replaceImg</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> c <span class="token operator">=</span> oldImg<span class="token punctuation">.</span>parentElement
+        c<span class="token punctuation">.</span><span class="token function">removeAttribute</span><span class="token punctuation">(</span><span class="token string">'href'</span><span class="token punctuation">)</span>
+        c<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>img<span class="token punctuation">)</span>
+        c<span class="token punctuation">.</span><span class="token function">removeChild</span><span class="token punctuation">(</span>oldImg<span class="token punctuation">)</span>
+
+      <span class="token punctuation">}</span>
+      <span class="token keyword">const</span> <span class="token function-variable function">replace</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>replaceImg<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>img<span class="token punctuation">.</span>complete<span class="token punctuation">)</span>
+        <span class="token function">replace</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token keyword">else</span>
+        img<span class="token punctuation">.</span>onload <span class="token operator">=</span> replace
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'load'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token function">lazyLoad</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><ul><li>css</li></ul> <div class="language-css extra-class"><pre class="language-css"><code><span class="token selector">img:not(.lazy-img)</span> <span class="token punctuation">{</span>
+  <span class="token property">will-change</span><span class="token punctuation">:</span> transform opacity<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 800px<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+  <span class="token property">animation</span><span class="token punctuation">:</span> realImg 0.5s linear<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token atrule"><span class="token rule">@keyframes</span> realImg</span> <span class="token punctuation">{</span>
+  <span class="token selector">0%</span> <span class="token punctuation">{</span>
+    <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">blur</span><span class="token punctuation">(</span>15px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token selector">100%</span> <span class="token punctuation">{</span>
+    <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">blur</span><span class="token punctuation">(</span>0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.lazy-img</span> <span class="token punctuation">{</span>
+  <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">blur</span><span class="token punctuation">(</span>15px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/frontend/jwt.html" class="prev">
+        jwt单点登录
+      </a></span> <span class="next"><a href="/frontend/cssCircle.html">
+        HTML环形加载
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.1b6c23ac.js" defer></script><script src="/assets/js/2.47941a20.js" defer></script><script src="/assets/js/3.902e5d2c.js" defer></script><script src="/assets/js/10.c371287a.js" defer></script>
+  </body>
+</html>

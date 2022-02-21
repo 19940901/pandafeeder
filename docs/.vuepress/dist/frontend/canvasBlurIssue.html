@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>背景 | pandafeeder</title>
+    <meta name="generator" content="VuePress 1.9.6">
+    
+    <meta name="description" content="note">
+    
+    <link rel="preload" href="/assets/css/0.styles.81770800.css" as="style"><link rel="preload" href="/assets/js/app.1b6c23ac.js" as="script"><link rel="preload" href="/assets/js/2.47941a20.js" as="script"><link rel="preload" href="/assets/js/3.902e5d2c.js" as="script"><link rel="preload" href="/assets/js/9.bcf2e783.js" as="script"><link rel="prefetch" href="/assets/js/10.c371287a.js"><link rel="prefetch" href="/assets/js/11.05427131.js"><link rel="prefetch" href="/assets/js/12.5b4e0e54.js"><link rel="prefetch" href="/assets/js/4.8ee4be34.js"><link rel="prefetch" href="/assets/js/5.5e7cadfb.js"><link rel="prefetch" href="/assets/js/6.6304fb8e.js"><link rel="prefetch" href="/assets/js/7.3cc007c8.js"><link rel="prefetch" href="/assets/js/8.94f308c5.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.81770800.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">pandafeeder</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/" aria-current="page" class="sidebar-link">创建项目</a></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>前端</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/frontend/vue.html" class="sidebar-link">Vue的一些知识</a></li><li><a href="/frontend/canvasBlurIssue.html" aria-current="page" class="active sidebar-link">解决canvas模糊问题</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/frontend/jwt.html" class="sidebar-link">jwt单点登录</a></li><li><a href="/frontend/imageLazyLoad.html" class="sidebar-link">图片懒加载之高斯模糊</a></li><li><a href="/frontend/cssCircle.html" class="sidebar-link">HTML环形加载</a></li><li><a href="/frontend/interview.html" class="sidebar-link">常用知识点</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h3 id="背景"><a href="#背景" class="header-anchor">#</a> 背景</h3> <p>前几天用 canvas 做了一个折线图 line chart，在电脑端还好，但是在移动端会变得模糊。原因是屏幕分辨率变高，物理像素密度变大，相应的 dpr 也变大，而 canvas 绘制的时候还是用原来的 dpr 去渲染，<code>相当于用 4k 的播放器去播放 720p 的图片，自然是模糊</code> <em>devicePixelRatio：DPR = 设备像素/CSS 像素</em></p> <h3 id="方法一"><a href="#方法一" class="header-anchor">#</a> 方法一</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">let</span> ratio <span class="token operator">=</span> window<span class="token punctuation">.</span>devicePixelRatio
+<span class="token keyword">const</span> e <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> context <span class="token operator">=</span> e<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span>
+
+width <span class="token operator">=</span> e<span class="token punctuation">.</span>style<span class="token punctuation">.</span>width <span class="token comment">//根据实际情况获取元素的宽度与高度</span>
+height <span class="token operator">=</span> e<span class="token punctuation">.</span>style<span class="token punctuation">.</span>height
+
+e<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">'width'</span><span class="token punctuation">,</span> width <span class="token operator">*</span> ratio<span class="token punctuation">)</span>
+e<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">'height'</span><span class="token punctuation">,</span> height <span class="token operator">*</span> ration<span class="token punctuation">)</span>
+</code></pre></div><h3 id="方法二"><a href="#方法二" class="header-anchor">#</a> 方法二</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">let</span> ratio <span class="token operator">=</span> window<span class="token punctuation">.</span>devicePixelRatio
+<span class="token keyword">const</span> e <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> context <span class="token operator">=</span> e<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">let</span> width <span class="token operator">=</span> <span class="token number">250</span>
+<span class="token keyword">let</span> height <span class="token operator">=</span> <span class="token number">250</span>
+<span class="token comment">//视口大小</span>
+e<span class="token punctuation">.</span>style<span class="token punctuation">.</span>width <span class="token operator">=</span> width <span class="token operator">+</span> <span class="token string">'px'</span>
+e<span class="token punctuation">.</span>style<span class="token punctuation">.</span>height <span class="token operator">=</span> height <span class="token operator">+</span> <span class="token string">'px'</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>ratio <span class="token operator">&gt;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">//画布缩放</span>
+  e<span class="token punctuation">.</span>width <span class="token operator">=</span> width <span class="token operator">*</span> ratio
+  e<span class="token punctuation">.</span>height <span class="token operator">=</span> height <span class="token operator">*</span> ratio
+  context<span class="token punctuation">.</span><span class="token function">scale</span><span class="token punctuation">(</span>ratio<span class="token punctuation">,</span> ratio<span class="token punctuation">)</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  e<span class="token punctuation">.</span>width <span class="token operator">=</span> width
+  e<span class="token punctuation">.</span>height <span class="token operator">=</span> height
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="原理"><a href="#原理" class="header-anchor">#</a> 原理</h3> <p>我们把页面中的<code>&lt;canvas&gt;</code>元素当作一个播放器，而 canvas 画布上的东西就相当于源文件。当播放器的分辨率很低的时候，我们对画布上源文件不需要很高的分辨率。但是当播放器的分辨率变高，便能看到更多的<code>&quot;细节&quot;</code>,所以需要用更多的<code>'料&quot;</code>来补充细节</p> <ul><li>固定视口大小
+<code>e.style.width = width + 'px'</code> <code>e.style.height = height + 'px'</code></li> <li>这一步是把画布拉伸，便于<code>&quot;填料&quot;</code>(画布默认大小为 300x150)
+<code>e.width = width * ratio</code> <code>e.height = height * ratio</code></li> <li>这一步是告诉画笔接下来的工作多填料
+<code>context.scale(ratio, ratio)</code></li></ul> <p><code>dpr=1</code>的时候，1css 像素可以用 1 物理像素渲染</p> <p><code>dpr=2</code>的时候，1css 像素就需要 2x2 个物理像素来渲染，不能一个干活其余围观</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/frontend/vue.html" class="prev">
+        Vue的一些知识
+      </a></span> <span class="next"><a href="/frontend/jwt.html">
+        jwt单点登录
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.1b6c23ac.js" defer></script><script src="/assets/js/2.47941a20.js" defer></script><script src="/assets/js/3.902e5d2c.js" defer></script><script src="/assets/js/9.bcf2e783.js" defer></script>
+  </body>
+</html>
