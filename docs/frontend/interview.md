@@ -1,6 +1,134 @@
 # 常用知识点
 
+```txt
+工作经历
+
+
+
+项目描述：xxx银行的信用卡模块、缴费模块，包含信用卡申请、信用卡还款、信用卡积分、手机充值、水电煤气缴费等业务
+该客户端为HybridApp，采用前后端分离模式，前端为Vue+Webpack构建的单页面应用
+主要职责：
+- 参与手机银行升级7.0版本的主要功能开发、组件封装
+- 引入axios + axios-mock-adapter工具，减轻了对后端mock数据的依赖，提升了开发效率
+- 针对长列表页面，防止DOM节点过多导致卡顿、白屏，使用recycle-view的方式极大的提升了页面性能
+- 针对UGC内容，使用XSS框架过滤内容，防止XSS攻击
+- 
+```
+
 ### 1，如何适配手机浏览器和 web 页面。(这个主要考虑 flex 布局和 rem 布局)
+- js 根据页面的宽度动态设置根元素的字体大小
+```js
+!(function () {
+  var a =
+      '@charset "utf-8";html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html *{outline:0;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}html,body{font-family:sans-serif}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}abbr,acronym{border:0;font-variant:normal}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:500}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500}q:before,q:after{content:\'\'}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a:hover{text-decoration:underline}ins,a{text-decoration:none}',
+    b = document.createElement('style')
+  if ((document.getElementsByTagName('head')[0].appendChild(b), b.styleSheet))
+    b.styleSheet.disabled || (b.styleSheet.cssText = a)
+  else
+    try {
+      b.innerHTML = a
+    } catch (c) {
+      b.innerText = a
+    }
+})()
+!(function (a, b) {
+  function c() {
+    var b = f.getBoundingClientRect().width
+    var c = (b / 750) * 100
+    ;(f.style.fontSize = c + 'px'), (k.rem = a.rem = c)
+  }
+  var d,
+    e = a.document,
+    f = e.documentElement,
+    g = e.querySelector('meta[name="viewport"]'),
+    h = e.querySelector('meta[name="flexible"]'),
+    i = 0,
+    j = 0,
+    k = b.flexible || (b.flexible = {})
+  if (g) {
+    var l = g.getAttribute('content').match(/initial\-scale=([\d\.]+)/)
+    l && ((j = parseFloat(l[1])), (i = parseInt(1 / j)))
+  } else if (h) {
+    var m = h.getAttribute('content')
+    if (m) {
+      var n = m.match(/initial\-dpr=([\d\.]+)/),
+        o = m.match(/maximum\-dpr=([\d\.]+)/)
+      n && ((i = parseFloat(n[1])), (j = parseFloat((1 / i).toFixed(2)))),
+        o && ((i = parseFloat(o[1])), (j = parseFloat((1 / i).toFixed(2))))
+    }
+  }
+  if (!i && !j) {
+    var p =
+        (a.navigator.appVersion.match(/android/gi),
+        a.navigator.appVersion.match(/iphone/gi)),
+      q = a.devicePixelRatio
+    ;(i = p
+      ? q >= 3 && (!i || i >= 3)
+        ? 3
+        : q >= 2 && (!i || i >= 2)
+        ? 2
+        : 1
+      : 1),
+      (j = 1 / i)
+  }
+  if ((f.setAttribute('data-dpr', i), !g))
+    if (
+      ((g = e.createElement('meta')),
+      g.setAttribute('name', 'viewport'),
+      g.setAttribute(
+        'content',
+        'initial-scale=' +
+          j +
+          ', maximum-scale=' +
+          j +
+          ', minimum-scale=' +
+          j +
+          ', user-scalable=no'
+      ),
+      f.firstElementChild)
+    )
+      f.firstElementChild.appendChild(g)
+    else {
+      var r = e.createElement('div')
+      r.appendChild(g), e.write(r.innerHTML)
+    }
+  a.addEventListener(
+    'resize',
+    function () {
+      clearTimeout(d), (d = setTimeout(c, 300))
+    },
+    !1
+  ),
+    a.addEventListener(
+      'pageshow',
+      function (a) {
+        a.persisted && (clearTimeout(d), (d = setTimeout(c, 300)))
+      },
+      !1
+    ),
+    'complete' === e.readyState
+      ? (e.body.style.fontSize = 12 * i + 'px')
+      : e.addEventListener(
+          'DOMContentLoaded',
+          function () {
+            e.body.style.fontSize = 12 * i + 'px'
+          },
+          !1
+        ),
+    c(),
+    (k.dpr = a.dpr = i),
+    (k.refreshRem = c),
+    (k.rem2px = function (a) {
+      var b = parseFloat(a) * this.rem
+      return 'string' == typeof a && a.match(/rem$/) && (b += 'px'), b
+    }),
+    (k.px2rem = function (a) {
+      var b = parseFloat(a) / this.rem
+      return 'string' == typeof a && a.match(/px$/) && (b += 'rem'), b
+    })
+})(window, window.lib || (window.lib = {}))
+```
+- 使用postcss-plugin-px2rem插件，将px转为rem
 
 viewport + rem
 flex
@@ -317,10 +445,16 @@ AJAX 状态码说明
 
 ### 22,vue 的 nextTick 这个方法有什么用
 
-在下一次 DOM 更新之后执行的操作
+- 在下一次 DOM 更新之后执行的操作
+- 将所有的回调函数压入 callbacks 数组
+- Promise > MutationObserver > setImmediate > setTimeout
 
-### 23，微任务和宏任务
+### 23，eventloop，微任务和宏任务
 
+- js 是单线程的，所有的任务都在主线程执行
+- 同步任务在执行栈中执行，异步任务由任务队列管理
+- 异步任务分为宏任务、微任务
+- 当前执行栈中为空的时候，去读取任务队列，被取到的任务会结束等待状态，进入执行栈
 - microtask : Promise.then(),mutationObserver
 - macotask : 同步代码，settimeout，setInterval，setimmediate
 
@@ -618,10 +752,18 @@ function deepClone(val) {
     }
   )
   ```
-### get与post区别
-- get只能使用url编码，post可以支持多种编码的数据
+
+### get 与 post 区别
+
+- get 只能使用 url 编码，post 可以支持多种编码的数据
   - encodeUrl：不会转义功能字符如/？&=
-  - encodeUrlComponent：对整个url进行转义
-- get请求会被浏览器缓存，post则不会
-- get请求长度最大2kb，post没有
-- get参数通过url传递，post放在requestBody
+  - encodeUrlComponent：对整个 url 进行转义
+- get 请求会被浏览器缓存，post 则不会
+- get 请求长度最大 2kb，post 没有
+- get 参数通过 url 传递，post 放在 requestBody
+
+### this 指向问题
+
+- 函数，谁调用的函数，this 就指向谁
+- 构造函数，指向实例
+- bind，apply，call 指向特定的对象
