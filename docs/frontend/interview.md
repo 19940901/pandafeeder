@@ -1,22 +1,33 @@
 # 常用知识点
 
-```txt
+熟悉 JavaScript，掌握 ES6 常用新特性；
+熟练使用 Vue.js 进行开发，熟悉 vuex、vue-router，了解服务端渲染 nuxt.js，了解 Vue3.0;
+熟悉响应式布局，熟练使用 rem、flex 布局进行不同页面的适配;
+
 工作经历
 
-
-
-项目描述：xxx银行的信用卡模块、缴费模块，包含信用卡申请、信用卡还款、信用卡积分、手机充值、水电煤气缴费等业务
-该客户端为HybridApp，采用前后端分离模式，前端为Vue+Webpack构建的单页面应用
+项目描述：xxx 银行 App 的信用卡模块、缴费模块，包含信用卡申请、信用卡还款、信用卡积分、手机充值、水电煤气缴费等。该项目为 Vue+Webpack 构建的单页面应用，通过JsBridge与Native通信。
 主要职责：
-- 参与手机银行升级7.0版本的主要功能开发、组件封装
-- 引入axios + axios-mock-adapter工具，减轻了对后端mock数据的依赖，提升了开发效率
-- 针对长列表页面，防止DOM节点过多导致卡顿、白屏，使用recycle-view的方式极大的提升了页面性能
-- 针对UGC内容，使用XSS框架过滤内容，防止XSS攻击
+
+- 参与手机银行7.0项目升级的主要功能开发
+- 引入 axios 、 axios-mock-adapter 工具，减轻了对后端 mock 数据的依赖，提升了开发效率
+- 针对长列表页面，通过监听 scroll 事件结合 computed 计算属性实现 recycle-view，解决部分低性能终端因 DOM 节点过多导致卡顿、白屏的问题
+- 封装常用的业务组件，并通过 slot 插槽增加组件的可拓展性
 - 
-```
+
+项目描述：浦发银行 App 的转账模块，包含转账记录查询、转账交易页面等，该项目主要基于jQuery开发。
+主要职责：
+
+- 负责转账模块的开发与维护；
+- 对代码进行重构与优化，封装常用的功能函数，减少代码体积，提高代码可读性；
+- 使用 jQuery、juicer 模板引擎，将页面中的不同模块进行拆分，使用模块化工具 Sea.js 按需加载，减少页面加载时间
+
+工作
 
 ### 1，如何适配手机浏览器和 web 页面。(这个主要考虑 flex 布局和 rem 布局)
+
 - js 根据页面的宽度动态设置根元素的字体大小
+
 ```js
 !(function () {
   var a =
@@ -128,7 +139,8 @@
     })
 })(window, window.lib || (window.lib = {}))
 ```
-- 使用postcss-plugin-px2rem插件，将px转为rem
+
+- 使用 postcss-plugin-px2rem 插件，将 px 转为 rem
 
 viewport + rem
 flex
@@ -301,6 +313,9 @@ margin: auto;
 ### 12，如何预防 xss 和 csrf 攻击。
 
 - xss 跨站脚本攻击 对用户输入的内容进行过滤
+  - 反射型，非持久型由用户参数生成的url，
+  - 存储型，永久保存，
+  - 
 - csrf 跨站请求伪造，利用浏览器保存的 cookie 伪造用户请求，加验证码，验证 referer、head 中添加 token、关键请求使用 post
 
 ### 13，polify 一个 map 函数使其可以以向下兼容
@@ -767,3 +782,16 @@ function deepClone(val) {
 - 函数，谁调用的函数，this 就指向谁
 - 构造函数，指向实例
 - bind，apply，call 指向特定的对象
+
+### http各版本区别
+- 1.0 无法复用连接，缓存expires
+- 1.1 
+  - 长连接：connection设置kepp-alive，一个tcp可以传输多个http请求
+  - 管道化，基于上述长连接，不等第一个请求响应，直接发送后续请求，顺序不变
+  - 缓存：增加cache-control
+  - 断点传输：range（request）/content-range（response）
+- 2.0
+  - 1.X解析是基于文本，2.0协议解析采用二进制
+  - 多路复用，1.1必须等前一个请求关闭后才能发下一个；2.0可以并行
+  - 服务端推送，主动发动可能用到的静态资源
+  - 头部压缩，1.x是传输文本
